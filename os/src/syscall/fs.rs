@@ -22,12 +22,12 @@ pub fn sys_write(fd: usize, buf: *const u8, len: usize) -> isize {
         FD_STDOUT => {
             let slice = unsafe { core::slice::from_raw_parts(buf, len) };
             match check_addr_legality(slice) {
-                None => -1 as isize,
                 Some(w_len) => {
                     let str = core::str::from_utf8(slice).unwrap();
                     print!("{}", str);
                     w_len
-                }
+                },
+                _ => -1 as isize
             }
         },
         _ => {
